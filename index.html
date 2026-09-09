@@ -7,6 +7,7 @@
   <title>StrukListrik Pro</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
     
@@ -84,17 +85,6 @@
       100% { transform: rotate(360deg); }
     }
 
-    /* Modal Animation */
-    .modal-enter {
-      opacity: 0;
-      transform: scale(0.95) translateY(10px);
-    }
-    .modal-enter-active {
-      opacity: 1;
-      transform: scale(1) translateY(0);
-      transition: opacity 300ms ease-out, transform 300ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    }
-
     /* Receipt Preview Dot Background */
     .bg-dots {
       background-image: radial-gradient(#cbd5e1 1px, transparent 1px);
@@ -102,7 +92,9 @@
     }
   </style>
 </head>
-<body data-runtime-mode="<?!= runtimeMode ?>" class="text-slate-800 antialiased overflow-hidden">
+
+<!-- KUNCI: Mode "production" di-set manual agar GitHub Pages mau memanggil API -->
+<body data-runtime-mode="production" class="text-slate-800 antialiased overflow-hidden">
 
   <!-- App Container -->
   <div class="flex h-screen w-full bg-slate-50">
@@ -205,7 +197,6 @@
             </div>
             
             <div class="bg-white rounded-2xl shadow-xl shadow-slate-200/50 border border-slate-100 p-6 md:p-8 relative overflow-hidden">
-              <!-- Decorative circle -->
               <div class="absolute -top-10 -right-10 w-32 h-32 bg-teal-50 rounded-full opacity-50 blur-2xl pointer-events-none"></div>
 
               <form id="form-transaksi" onsubmit="window.handleTransaksiSubmit(event)" class="relative z-10">
@@ -220,7 +211,6 @@
                       </div>
                       <select id="t-pelanggan-select" class="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl modern-input text-slate-700 appearance-none cursor-pointer transition-all" required onchange="window.handlePelangganChange(this)">
                         <option value="">-- Cari atau Pilih Pelanggan --</option>
-                        <!-- Options populated via JS -->
                       </select>
                       <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
                         <i class="fas fa-chevron-down text-slate-400 text-xs"></i>
@@ -237,32 +227,25 @@
                   <div>
                     <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1.5">No Pelanggan</label>
                     <div class="relative">
-                      <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <i class="fas fa-id-card text-slate-400"></i>
-                      </div>
+                      <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"><i class="fas fa-id-card text-slate-400"></i></div>
                       <input type="text" id="t-no-pelanggan" class="w-full pl-10 pr-4 py-2.5 bg-slate-100 border-transparent rounded-xl text-slate-600 font-medium cursor-not-allowed focus:outline-none" readonly required placeholder="-">
                     </div>
                   </div>
                   <div>
                     <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1.5">Nama Lengkap</label>
                     <div class="relative">
-                      <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <i class="fas fa-user text-slate-400"></i>
-                      </div>
+                      <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"><i class="fas fa-user text-slate-400"></i></div>
                       <input type="text" id="t-nama" class="w-full pl-10 pr-4 py-2.5 bg-slate-100 border-transparent rounded-xl text-slate-600 font-medium cursor-not-allowed focus:outline-none" readonly required placeholder="-">
                     </div>
                   </div>
                   <div class="md:col-span-2">
                     <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1.5">Tarif / Daya</label>
                     <div class="relative">
-                      <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <i class="fas fa-plug text-slate-400"></i>
-                      </div>
+                      <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"><i class="fas fa-plug text-slate-400"></i></div>
                       <input type="text" id="t-tarif-daya" class="w-full pl-10 pr-4 py-2.5 bg-slate-100 border-transparent rounded-xl text-slate-600 font-medium cursor-not-allowed focus:outline-none" readonly required placeholder="-">
                     </div>
                   </div>
 
-                  <!-- Divider -->
                   <div class="md:col-span-2 pt-2">
                     <div class="border-t border-dashed border-slate-200"></div>
                   </div>
@@ -271,18 +254,14 @@
                   <div>
                     <label class="block text-sm font-semibold text-slate-700 mb-1.5">Periode Tagihan <span class="text-red-500">*</span></label>
                     <div class="relative">
-                      <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <i class="far fa-calendar-alt text-slate-400"></i>
-                      </div>
+                      <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"><i class="far fa-calendar-alt text-slate-400"></i></div>
                       <input type="text" id="t-periode" placeholder="Contoh: SEP2026" class="w-full pl-10 pr-4 py-3 border border-slate-200 rounded-xl modern-input uppercase placeholder-slate-300" required>
                     </div>
                   </div>
                   <div>
                     <label class="block text-sm font-semibold text-slate-700 mb-1.5">Stand Meter <span class="text-red-500">*</span></label>
                     <div class="relative">
-                      <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <i class="fas fa-tachometer-alt text-slate-400"></i>
-                      </div>
+                      <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"><i class="fas fa-tachometer-alt text-slate-400"></i></div>
                       <input type="text" id="t-stand-meter" placeholder="Contoh: 15400-15600" class="w-full pl-10 pr-4 py-3 border border-slate-200 rounded-xl modern-input placeholder-slate-300" required>
                     </div>
                   </div>
@@ -290,9 +269,7 @@
                   <div class="md:col-span-2">
                     <label class="block text-sm font-semibold text-slate-700 mb-1.5">Tagihan PLN (Rp) <span class="text-red-500">*</span></label>
                     <div class="relative">
-                      <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                        <span class="text-slate-500 font-medium">Rp</span>
-                      </div>
+                      <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none"><span class="text-slate-500 font-medium">Rp</span></div>
                       <input type="number" id="t-tagihan-pln" placeholder="0" class="w-full pl-12 pr-4 py-3 border border-slate-200 rounded-xl modern-input text-lg font-semibold text-slate-800" required oninput="window.calculateTotal()">
                     </div>
                   </div>
@@ -347,7 +324,6 @@
                     </tr>
                   </thead>
                   <tbody id="table-pelanggan" class="text-sm divide-y divide-slate-100">
-                    <!-- Data rows here -->
                   </tbody>
                 </table>
               </div>
@@ -377,7 +353,6 @@
                     </tr>
                   </thead>
                   <tbody id="table-riwayat" class="text-sm divide-y divide-slate-100">
-                    <!-- Data rows here -->
                   </tbody>
                 </table>
               </div>
@@ -396,7 +371,6 @@
             <div class="bg-white rounded-2xl shadow-xl shadow-slate-200/50 border border-slate-100 p-6 md:p-8">
               <form id="form-pengaturan" onsubmit="window.handlePengaturanSubmit(event)">
                 <div class="space-y-6">
-                  
                   <div class="bg-slate-50 p-5 rounded-xl border border-slate-200">
                     <div class="flex items-start gap-4">
                       <div class="w-10 h-10 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center shrink-0">
@@ -404,7 +378,7 @@
                       </div>
                       <div class="flex-1">
                         <label class="block text-sm font-bold text-slate-800 mb-1">Biaya Admin Default (Rp)</label>
-                        <p class="text-xs text-slate-500 mb-3 leading-relaxed">Nilai ini akan otomatis ditambahkan ke setiap transaksi baru sebagai biaya layanan loket.</p>
+                        <p class="text-xs text-slate-500 mb-3 leading-relaxed">Nilai ini otomatis ditambahkan ke setiap transaksi baru.</p>
                         <div class="relative max-w-xs">
                           <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                             <span class="text-slate-500 font-medium">Rp</span>
@@ -414,7 +388,6 @@
                       </div>
                     </div>
                   </div>
-
                 </div>
                 <div class="mt-8 flex justify-end">
                   <button type="submit" class="bg-slate-800 hover:bg-slate-900 text-white font-medium py-2.5 px-6 rounded-xl transition-colors shadow-lg flex items-center gap-2">
@@ -447,7 +420,6 @@
 
       <form id="form-modal-pelanggan" onsubmit="window.savePelanggan(event)" class="p-6 space-y-5">
         <input type="hidden" id="p-id">
-        
         <div>
           <label class="block text-sm font-semibold text-slate-700 mb-1.5">No Pelanggan <span class="text-red-500">*</span></label>
           <div class="relative">
@@ -455,7 +427,6 @@
             <input type="text" id="p-no" class="w-full pl-10 pr-4 py-2.5 border border-slate-300 rounded-xl modern-input" required placeholder="12 digit ID">
           </div>
         </div>
-        
         <div>
           <label class="block text-sm font-semibold text-slate-700 mb-1.5">Nama Lengkap <span class="text-red-500">*</span></label>
           <div class="relative">
@@ -463,7 +434,6 @@
             <input type="text" id="p-nama" class="w-full pl-10 pr-4 py-2.5 border border-slate-300 rounded-xl modern-input" required placeholder="Sesuai KTP/Meteran">
           </div>
         </div>
-        
         <div>
           <label class="block text-sm font-semibold text-slate-700 mb-1.5">Tarif / Daya <span class="text-red-500">*</span></label>
           <div class="relative">
@@ -471,7 +441,6 @@
             <input type="text" id="p-tarif" placeholder="Contoh: R1/900VA" class="w-full pl-10 pr-4 py-2.5 border border-slate-300 rounded-xl modern-input uppercase" required>
           </div>
         </div>
-
         <div class="pt-4 mt-2 border-t border-slate-100 flex justify-end gap-3">
           <button type="button" onclick="window.closeModalPelanggan()" class="px-5 py-2.5 border border-slate-300 text-slate-700 rounded-xl hover:bg-slate-50 transition-colors font-medium">Batal</button>
           <button type="submit" class="px-5 py-2.5 bg-teal-600 hover:bg-teal-700 text-white rounded-xl transition-colors shadow-md font-semibold flex items-center gap-2">
@@ -486,7 +455,6 @@
   <!-- MODAL PREVIEW STRUK -->
   <!-- ========================================== -->
   <div id="modal-preview-struk" class="fixed inset-0 bg-slate-900/80 hidden z-[60] flex items-center justify-center p-4 backdrop-blur-sm transition-opacity duration-300 opacity-0 bg-dots">
-    
     <div class="flex flex-col items-center max-w-sm w-full">
       <!-- Header Preview -->
       <div class="flex justify-between items-center w-full mb-4 bg-slate-800/90 text-white px-4 py-3 rounded-2xl shadow-lg border border-slate-700">
@@ -498,22 +466,18 @@
 
       <!-- Container Struk Fisik -->
       <div class="bg-white w-full rounded-t-sm rounded-b-xl shadow-2xl relative" style="filter: drop-shadow(0 10px 15px rgba(0,0,0,0.3));">
-        
         <!-- Zigzag top border effect -->
         <div class="absolute -top-1.5 left-0 w-full h-1.5 bg-white" style="background-image: linear-gradient(-45deg, transparent 33.33%, #fff 33.33%, #fff 66.66%, transparent 66.66%), linear-gradient(45deg, transparent 33.33%, #fff 33.33%, #fff 66.66%, transparent 66.66%); background-size: 8px 16px;"></div>
 
-        <!-- ISI STRUK PREVIEW (Identik dengan print section) -->
         <div class="receipt-font text-slate-900 p-6 pt-8 w-full max-w-[340px] mx-auto text-[13px] leading-relaxed">
           <div class="text-center mb-5 pb-4 border-b-2 border-dashed border-slate-300">
             <h2 class="text-lg font-bold tracking-wider">STRUK PEMBAYARAN LISTRIK</h2>
             <p class="text-xs text-slate-600 mt-1 uppercase">Bukti Lunas Tagihan</p>
           </div>
-          
           <div class="space-y-1.5 mb-5 font-medium">
             <div class="flex justify-between"><span>TANGGAL</span> <span id="pv-tanggal">-</span></div>
             <div class="flex justify-between"><span>NO STRUK</span> <span id="pv-id">-</span></div>
           </div>
-
           <div class="border-t-2 border-b-2 border-dashed border-slate-300 py-4 space-y-1.5 mb-5 font-medium">
             <div class="flex justify-between"><span>NO PEL</span> <span id="pv-nopel" class="font-bold text-sm">-</span></div>
             <div class="flex justify-between"><span>NAMA</span> <span id="pv-nama">-</span></div>
@@ -521,16 +485,13 @@
             <div class="flex justify-between"><span>BLN/THN</span> <span id="pv-periode">-</span></div>
             <div class="flex justify-between"><span>STAND METER</span><span id="pv-stand">-</span></div>
           </div>
-
           <div class="space-y-1.5 mb-2 font-medium">
             <div class="flex justify-between"><span>RP TAG PLN</span> <span id="pv-tagpln">-</span></div>
             <div class="flex justify-between"><span>ADMIN BANK</span> <span id="pv-admin">-</span></div>
           </div>
-          
           <div class="flex justify-between items-center font-bold text-base mt-4 border-t-2 border-solid border-slate-800 pt-3 mb-8">
             <span>TOTAL BAYAR</span> <span id="pv-total" class="text-lg">-</span>
           </div>
-
           <div class="text-center text-[10px] text-slate-500 uppercase tracking-widest leading-loose">
             <p>Terima Kasih</p>
             <p>Simpan Struk Ini Sebagai<br>Bukti Pembayaran Yang Sah</p>
@@ -557,18 +518,15 @@
   <!-- PRINT SECTION (Hidden on screen, visible on print) -->
   <!-- ========================================== -->
   <div id="print-section" class="hidden">
-    <!-- Format Struk Thermal (~80mm) -->
     <div class="receipt-font text-black bg-white p-4 w-full" style="max-width: 320px; text-transform: uppercase;">
       <div class="text-center mb-4 pb-2" style="border-bottom: 2px dashed #000;">
         <h2 style="font-size: 16px; font-weight: bold; margin-bottom: 4px;">STRUK PEMBAYARAN LISTRIK</h2>
         <p style="font-size: 12px; margin: 0;">BUKTI LUNAS TAGIHAN</p>
       </div>
-      
       <div style="font-size: 12px; margin-bottom: 12px; line-height: 1.4;">
         <div style="display: flex; justify-content: space-between;"><span>TANGGAL</span> <span id="r-tanggal"></span></div>
         <div style="display: flex; justify-content: space-between;"><span>NO STRUK</span> <span id="r-id"></span></div>
       </div>
-
       <div style="font-size: 12px; border-top: 2px dashed #000; border-bottom: 2px dashed #000; padding: 8px 0; margin-bottom: 12px; line-height: 1.4;">
         <div style="display: flex; justify-content: space-between;"><span>NO PEL</span> <span id="r-nopel" style="font-weight: bold;"></span></div>
         <div style="display: flex; justify-content: space-between;"><span>NAMA</span> <span id="r-nama"></span></div>
@@ -576,7 +534,6 @@
         <div style="display: flex; justify-content: space-between;"><span>BLN/THN</span> <span id="r-periode"></span></div>
         <div style="display: flex; justify-content: space-between;"><span>STAND MTR</span><span id="r-stand"></span></div>
       </div>
-
       <div style="font-size: 12px; margin-bottom: 12px; line-height: 1.4;">
         <div style="display: flex; justify-content: space-between;"><span>RP TAG PLN</span> <span id="r-tagpln"></span></div>
         <div style="display: flex; justify-content: space-between;"><span>ADMIN BANK</span> <span id="r-admin"></span></div>
@@ -584,7 +541,6 @@
           <span>TOTAL BAYAR</span> <span id="r-total"></span>
         </div>
       </div>
-
       <div style="text-align: center; font-size: 10px; margin-top: 20px; border-top: 1px dashed #000; padding-top: 12px; line-height: 1.4;">
         <p style="margin: 0;">TERIMA KASIH</p>
         <p style="margin: 0;">SIMPAN STRUK INI SEBAGAI<br>BUKTI PEMBAYARAN YANG SAH</p>
@@ -602,8 +558,7 @@
   <!-- JAVASCRIPT LOGIC -->
   <!-- ========================================== -->
   <script>
-
-     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz0enIuyKxKRLKtIVQlS7RF0eACaREEtgPpaU5juDKF-6-r5rr3wfxssX2qKOJRFfXv/exec"; 
+    const GAS_API_URL = "https://script.google.com/macros/s/AKfycbwnCbzN_tRwhBTdwj0ehzjZIUfJ7PjdwWH19P7jF-N9S2ndwtVWM2EECsPdg8E6gFZ9/exec"; 
     
     (function(){
       'use strict';
@@ -686,14 +641,35 @@
       function gasRun(functionName) {
         var args = Array.prototype.slice.call(arguments, 1);
 
-        if (isCanvasMode) {
-          return new Promise(function(resolve, reject) {
+        return new Promise(function(resolve, reject) {
+          // 1. Cek Jika NATIVE di Web App Google Script (Jika diakses via link Google)
+          if (typeof google !== 'undefined' && google.script && google.script.run) {
+            var runner = google.script.run.withSuccessHandler(resolve).withFailureHandler(reject);
+            runner[functionName].apply(runner, args);
+          } 
+          // 2. Cek Jika BERJALAN DI GITHUB PAGES (Menggunakan External API Fetch)
+          else if (GAS_API_URL && isProduction) {
+            var payload = { action: functionName, args: args };
+            fetch(GAS_API_URL, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'text/plain;charset=utf-8',
+              },
+              redirect: 'follow', // PENTING: Mencegah error CORS / diblokir oleh browser
+              body: JSON.stringify(payload)
+            })
+            .then(function(res){ return res.json(); })
+            .then(function(data){ resolve(data); })
+            .catch(function(err){ 
+              reject(new Error("Gagal terhubung ke Spreadsheet. Pastikan Anda sudah 'Deploy sebagai Versi Baru' di Google Apps Script.")); 
+            });
+          } 
+          // 3. Fallback Canvas/Mock DB (Hanya jika mode Canvas aktif)
+          else {
             setTimeout(function() {
               try {
-                // Mock Implementations
-                if (functionName === 'getAppData') {
-                  resolve({ success: true, data: mockDB });
-                } else if (functionName === 'savePelanggan') {
+                if (functionName === 'getAppData') resolve({ success: true, data: mockDB });
+                else if (functionName === 'savePelanggan') {
                   var p = args[0];
                   if(!p.id) p.id = 'PLG-' + Date.now();
                   var idx = mockDB.pelanggan.findIndex(x => x.id === p.id);
@@ -715,19 +691,8 @@
               } catch(e) {
                 resolve({ success: false, message: e.message });
               }
-            }, 800); // simulate network latency
-          });
-        }
-
-        return new Promise(function(resolve, reject) {
-          if (!window.google || !google.script || !google.script.run) {
-            reject(new Error('Layanan Google Apps Script tidak tersedia.'));
-            return;
+            }, 800);
           }
-          var runner = google.script.run
-            .withSuccessHandler(resolve)
-            .withFailureHandler(reject);
-          runner[functionName].apply(runner, args);
         });
       }
 
@@ -763,7 +728,6 @@
         renderTablePelanggan();
         renderTableRiwayat();
         
-        // Set default admin setting
         document.getElementById('setting-biaya-admin').value = globalData.pengaturan.biayaAdmin;
         document.getElementById('t-biaya-admin').value = globalData.pengaturan.biayaAdmin;
         window.calculateTotal();
@@ -793,12 +757,10 @@
         sections.forEach(function(sec) { sec.classList.add('hidden'); });
         document.getElementById('view-' + pageId).classList.remove('hidden');
 
-        // Update Nav styling
         var navLinks = document.querySelectorAll('nav a');
         navLinks.forEach(function(nav) {
           nav.classList.remove('bg-slate-800', 'text-white', 'border-slate-700');
           nav.classList.add('text-slate-400', 'border-transparent');
-          // Reset icon color
           var icon = nav.querySelector('i');
           if(icon) icon.classList.remove('text-teal-400');
         });
@@ -855,7 +817,6 @@
 
       window.handleTransaksiSubmit = function(e) {
         e.preventDefault();
-        
         var trxData = {
           nopel: document.getElementById('t-no-pelanggan').value.trim(),
           nama: document.getElementById('t-nama').value.trim(),
@@ -883,12 +844,10 @@
               globalData.transaksi.unshift(res.data);
               renderTableRiwayat();
               document.getElementById('form-transaksi').reset();
-              // Restore calculated values after reset
               document.getElementById('t-biaya-admin').value = globalData.pengaturan.biayaAdmin;
               window.setAutoPeriode();
               window.calculateTotal(); 
               
-              // Tampilkan Preview Struk
               window.showPreviewStruk(res.data);
               showToast('Transaksi berhasil disimpan!');
             } else {
@@ -906,7 +865,6 @@
 
       // --- LOGIC: MODAL PREVIEW STRUK & PRINT ---
       window.showPreviewStruk = function(trx) {
-        // Populate Data for Preview UI
         document.getElementById('pv-tanggal').textContent = safeDate(trx.tanggal);
         document.getElementById('pv-id').textContent = escapeHTML(trx.id);
         document.getElementById('pv-nopel').textContent = escapeHTML(trx.nopel);
@@ -918,7 +876,6 @@
         document.getElementById('pv-admin').textContent = formatRupiah(trx.admin);
         document.getElementById('pv-total').textContent = formatRupiah(trx.total);
 
-        // Populate Data for hidden Print UI
         document.getElementById('r-tanggal').textContent = safeDate(trx.tanggal);
         document.getElementById('r-id').textContent = escapeHTML(trx.id);
         document.getElementById('r-nopel').textContent = escapeHTML(trx.nopel);
@@ -930,36 +887,22 @@
         document.getElementById('r-admin').textContent = formatRupiah(trx.admin);
         document.getElementById('r-total').textContent = formatRupiah(trx.total);
 
-        // Show Modal Preview
         var modal = document.getElementById('modal-preview-struk');
         modal.classList.remove('hidden');
-        // trigger animation
-        setTimeout(() => {
-          modal.classList.remove('opacity-0');
-        }, 10);
+        setTimeout(() => { modal.classList.remove('opacity-0'); }, 10);
       };
 
       window.closePreviewStruk = function() {
         var modal = document.getElementById('modal-preview-struk');
         modal.classList.add('opacity-0');
-        setTimeout(() => {
-          modal.classList.add('hidden');
-        }, 300);
+        setTimeout(() => { modal.classList.add('hidden'); }, 300);
       };
 
       window.executePrint = function() {
-        // Hide Modal temporarily
         document.getElementById('modal-preview-struk').classList.add('hidden');
-        
-        // Show Print Section
         document.getElementById('print-section').classList.remove('hidden');
-        
-        // Execute Print
         window.print();
-        
-        // Restore
         document.getElementById('print-section').classList.add('hidden');
-        // Completely close preview after printing
         window.closePreviewStruk(); 
       };
 
@@ -1004,24 +947,20 @@
         var trx = globalData.transaksi.find(x => x.id === trxId);
         if(trx) {
           window.changePage('transaksi');
-          
-          // Set dropdown
           var pelId = globalData.pelanggan.find(p => p.no === trx.nopel)?.id || "";
           document.getElementById('t-pelanggan-select').value = pelId;
-          
           document.getElementById('t-no-pelanggan').value = trx.nopel;
           document.getElementById('t-nama').value = trx.nama;
           document.getElementById('t-tarif-daya').value = trx.tarif;
-          document.getElementById('t-stand-meter').value = trx.stand; // Stand meter lama sebagai referensi
+          document.getElementById('t-stand-meter').value = trx.stand; 
           document.getElementById('t-tagihan-pln').value = trx.tagihanPLN;
           
-          window.setAutoPeriode(); // update ke periode saat ini
+          window.setAutoPeriode(); 
           window.calculateTotal();
           
           showToast('Data diisi ulang. Cek kembali Stand Meter & Tagihan!', false);
         }
       };
-
 
       // --- LOGIC: PELANGGAN ---
       function renderTablePelanggan() {
@@ -1073,9 +1012,7 @@
         modal.classList.add('opacity-0');
         content.classList.add('scale-95');
         
-        setTimeout(() => {
-          modal.classList.add('hidden');
-        }, 300);
+        setTimeout(() => { modal.classList.add('hidden'); }, 300);
       };
 
       window.editPelanggan = function(id) {
@@ -1108,10 +1045,8 @@
           tarif: document.getElementById('p-tarif').value.trim().toUpperCase()
         };
 
-        // Optimistic UI Backup
         var originalData = JSON.parse(JSON.stringify(globalData.pelanggan));
         
-        // Optimistic update
         if(id) {
           var idx = globalData.pelanggan.findIndex(x => x.id === id);
           if(idx > -1) globalData.pelanggan[idx] = pData;
@@ -1128,7 +1063,6 @@
           .then(function(res) {
             if (res.success) {
               if(!id) {
-                // replace temp id
                 var idx = globalData.pelanggan.findIndex(x => x.id === pData.id);
                 if(idx > -1) globalData.pelanggan[idx] = res.data;
               }
@@ -1136,14 +1070,14 @@
               renderTablePelanggan();
               renderPelangganSelect();
             } else {
-              globalData.pelanggan = originalData; // Rollback
+              globalData.pelanggan = originalData; 
               renderTablePelanggan();
               renderPelangganSelect();
               showToast(res.message, true);
             }
           })
           .catch(function(err) {
-            globalData.pelanggan = originalData; // Rollback
+            globalData.pelanggan = originalData;
             renderTablePelanggan();
             renderPelangganSelect();
             showToast('Gagal menyimpan: ' + err.message, true);
@@ -1161,7 +1095,7 @@
         gasRun('deletePelanggan', id)
           .then(function(res) {
             if(res.success) {
-              showToast('Pelanggan berhasil dihapus.');
+              showToast('Pelanggan dihapus.');
             } else {
               globalData.pelanggan = originalData;
               renderTablePelanggan();
